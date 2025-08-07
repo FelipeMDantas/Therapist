@@ -1,6 +1,7 @@
 import { AudioWaveform } from "lucide-react";
 import Link from "next/link";
 import ThemeToggle from "./theme-toggle";
+import SignInButton from "./auth/sign-in-button";
 
 const Header = () => {
   const navItems = [
@@ -19,7 +20,10 @@ const Header = () => {
             >
               <AudioWaveform className="h-7 w-7 text-primary animate-pulse-gentle" />
               <div className="flex flex-col">
-                <span className="font-semibold text-lg bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+                <span
+                  className="font-semibold text-lg bg-gradient-to-r from-primary to-primary/80 bg-clip-text 
+                text-transparent"
+                >
                   Aura3.0
                 </span>
                 <span className="text-xs dark:text-muted-foreground">
@@ -34,16 +38,21 @@ const Header = () => {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors relative group"
+                    className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground 
+                    transition-colors relative group"
                   >
                     {item.label}
-                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left" />
+                    <span
+                      className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 
+                    group-hover:scale-x-100 transition-transform duration-200 origin-left"
+                    />
                   </Link>
                 ))}
               </nav>
 
               <div className="flex items-center gap-3">
                 <ThemeToggle />
+                <SignInButton />
               </div>
             </div>
           </div>
