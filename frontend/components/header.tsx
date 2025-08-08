@@ -1,9 +1,15 @@
-import { AudioWaveform } from "lucide-react";
+"use client";
+
+import { AudioWaveform, Menu, MessageCircle, X } from "lucide-react";
 import Link from "next/link";
 import ThemeToggle from "./theme-toggle";
 import SignInButton from "./auth/sign-in-button";
+import { Button } from "./ui/button";
+import { useState } from "react";
 
 const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const navItems = [
     { href: "/features", label: "Features" },
     { href: "/about", label: "About Aura" },
@@ -53,9 +59,40 @@ const Header = () => {
               <div className="flex items-center gap-3">
                 <ThemeToggle />
                 <SignInButton />
+
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="md:hidden"
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                >
+                  {isMenuOpen ? (
+                    <X className="h-5 w-5" />
+                  ) : (
+                    <Menu className="h-5 w-5" />
+                  )}
+                </Button>
               </div>
             </div>
           </div>
+
+          {isMenuOpen && (
+            <div className="md:hidden border-t border-primary/10">
+              <nav className="flex flex-col space-y-1 py-4">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-primary/5 rounded-md
+                     transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+          )}
         </header>
       </div>
     </div>
