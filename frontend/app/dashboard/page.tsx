@@ -4,7 +4,9 @@ import { Container } from "@/components/ui/container";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
-import { Sparkles } from "lucide-react";
+import { ArrowRight, MessageSquare, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export default function Dashboard() {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -50,6 +52,35 @@ export default function Dashboard() {
                         Start your wellness journey
                       </p>
                     </div>
+                  </div>
+
+                  <div className="grid gap-3">
+                    <Button
+                      variant="default"
+                      className={cn(
+                        "w-full justify-between items-center p-6 h-auto group/button",
+                        "bg-gradient-to-r from-primary/90 to-primary hover:from-primary hover:to-primary/90",
+                        "transition-all duration-200 group-hover:translate-y-[-2px]"
+                      )}
+                      onClick={() => {}}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                          <MessageSquare className="w-4 h-4 text-white" />
+                        </div>
+                        <div className="text-left">
+                          <div className="font-semibold text-white">
+                            Start Therapy
+                          </div>
+                          <div className="text-xs text-white/80">
+                            Begin a new session
+                          </div>
+                        </div>
+                      </div>
+                      <div className="opacity-0 group-hover/button:opacity-100 transition-opacity">
+                        <ArrowRight className="w-5 h-5 text-white" />
+                      </div>
+                    </Button>
                   </div>
                 </div>
               </CardContent>
