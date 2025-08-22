@@ -5,17 +5,70 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import {
+  Activity,
   ArrowRight,
+  Brain,
   BrainCircuit,
   Heart,
   MessageSquare,
   Sparkles,
+  Trophy,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+interface DailyStats {
+  moodScore: number | null;
+  completionRate: number;
+  mindfulnessCount: number;
+  totalActivities: number;
+  lastUpdated: Date;
+}
+
 export default function Dashboard() {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [dailyStats, setDailyStats] = useState<DailyStats>({
+    moodScore: null,
+    completionRate: 100,
+    mindfulnessCount: 0,
+    totalActivities: 0,
+    lastUpdated: new Date(),
+  });
+
+  const wellnessStats = [
+    {
+      title: "Mood Score",
+      value: dailyStats.moodScore ? `${dailyStats.moodScore}%` : "No data",
+      icon: Brain,
+      color: "text-purple-500",
+      bgColor: "bg-purple-500/10",
+      description: "Today's average mood",
+    },
+    {
+      title: "Completion Rate",
+      value: "100%",
+      icon: Trophy,
+      color: "text-yellow-500",
+      bgColor: "bg-yellow-500/10",
+      description: "Perfect completion rate",
+    },
+    {
+      title: "Therapy Sessions",
+      value: `${dailyStats.mindfulnessCount} sessions`,
+      icon: Heart,
+      color: "text-rose-500",
+      bgColor: "bg-rose-500/10",
+      description: "Total sessions completed",
+    },
+    {
+      title: "Total Activities",
+      value: dailyStats.totalActivities.toString(),
+      icon: Activity,
+      color: "text-blue-500",
+      bgColor: "bg-blue-500/10",
+      description: "Planned for today",
+    },
+  ];
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
