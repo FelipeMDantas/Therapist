@@ -3,19 +3,27 @@
 import { Container } from "@/components/ui/container";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Activity,
   ArrowRight,
   Brain,
   BrainCircuit,
   Heart,
+  Loader2,
   MessageSquare,
   Sparkles,
   Trophy,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { format } from "date-fns";
 
 interface DailyStats {
   moodScore: number | null;
@@ -185,6 +193,28 @@ export default function Dashboard() {
                   </div>
                 </div>
               </CardContent>
+            </Card>
+
+            <Card className="border-primary/10">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle>Today's Overview</CardTitle>
+                    <CardDescription>
+                      Your wellness metrics for{" "}
+                      {format(new Date(), "MMMM d, yyyy")}
+                    </CardDescription>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => {}}
+                    className="h-8 w-8"
+                  >
+                    <Loader2 className={cn("h-4 w-4", "animate-spin")} />
+                  </Button>
+                </div>
+              </CardHeader>
             </Card>
           </div>
         </div>
