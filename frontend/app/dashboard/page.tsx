@@ -24,6 +24,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 interface DailyStats {
   moodScore: number | null;
@@ -35,6 +42,7 @@ interface DailyStats {
 
 export default function Dashboard() {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [showMoodModal, setShowMoodModal] = useState(false);
   const [dailyStats, setDailyStats] = useState<DailyStats>({
     moodScore: null,
     completionRate: 100,
@@ -84,7 +92,7 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-[92.5vh] bg-background">
       <Container className="pt-20 pb-8 space-y-6">
         <div className="flex justify-between items-center">
           <motion.div
@@ -243,8 +251,23 @@ export default function Dashboard() {
               </CardContent>
             </Card>
           </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-3 space-y-6"></div>
+          </div>
         </div>
       </Container>
+
+      <Dialog open={showMoodModal} onOpenChange={setShowMoodModal}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>How are you feeling?</DialogTitle>
+            <DialogDescription>
+              Move the slider to track your current mood
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

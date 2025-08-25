@@ -19,7 +19,7 @@ export default function SignupPage() {
   const handleSubmit = () => {};
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-secondary/30">
+    <div className="min-h-[92.5vh] w-full flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-secondary/30">
       <Container className="flex flex-col items-center justify-center w-full">
         <Card className="w-full md:w-5/12 max-w-2xl p-8 md:p-10 rounded-3xl shadow-2xl border border-primary/10 bg-card/90 backdrop-blur-lg mt-20">
           <div className="mb-6 text-center">

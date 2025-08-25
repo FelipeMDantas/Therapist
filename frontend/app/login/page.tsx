@@ -18,7 +18,7 @@ export default function LoginPage() {
 
   return (
     <div
-      className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-primary/10 
+      className="min-h-[92.5vh] w-full flex items-center justify-center bg-gradient-to-br from-primary/10 
     via-background to-secondary/30"
     >
       <Container className="flex flex-col items-center justify-center w-full">
