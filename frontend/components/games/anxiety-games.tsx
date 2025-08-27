@@ -1,6 +1,7 @@
 "use client";
 
 import { Flower2, TreePine, Waves, Wind } from "lucide-react";
+import { useState } from "react";
 
 const games = [
   {
@@ -45,4 +46,38 @@ interface AnxietyGamesProps {
   onGamePlayed?: (gameName: string, description: string) => Promise<void>;
 }
 
-export const AnxietyGames = ({ onGamePlayed }: AnxietyGamesProps) => {};
+export const AnxietyGames = ({ onGamePlayed }: AnxietyGamesProps) => {
+  const [selectedGame, setSelectedGame] = useState<string | null>(null);
+  const [showGame, setShowGame] = useState(false);
+
+  const handleGameStart = async (gameId: string) => {
+    setSelectedGame(gameId);
+    setShowGame(true);
+
+    if (onGamePlayed) {
+      try {
+        await onGamePlayed(
+          gameId,
+          games.find((g) => g.id === gameId)?.description || ""
+        );
+      } catch (error) {
+        console.error("Error logging game activity:", error);
+      }
+    }
+  };
+
+  const renderGame = () => {
+    switch (selectedGame) {
+      case "breathing":
+        //return <BreathingGame />;
+      case "garden":
+        //return <ZenGarden />;
+      case "forest":
+        //return <ForestGame />;
+      case "waves":
+        //return <OceanWaves />;
+      default:
+        return null;
+    }
+  };
+};
