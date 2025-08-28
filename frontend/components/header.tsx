@@ -1,6 +1,6 @@
 "use client";
 
-import { AudioWaveform, Menu, MessageCircle, X } from "lucide-react";
+import { AudioWaveform, Menu, X } from "lucide-react";
 import Link from "next/link";
 import ThemeToggle from "./theme-toggle";
 import SignInButton from "./auth/sign-in-button";
@@ -16,9 +16,9 @@ const Header = () => {
   ];
 
   return (
-    <div className="w-full fixed top-0 z-50 bg-background/95 backdrop-blur">
+    <div className="w-full fixed top-0 z-50">
       <div className="absolute inset-0 border-b border-primary/10">
-        <header className="relative max-w-6xl mx-auto px-4">
+        <header className="relative mx-auto md:max-w-[90vw] px-4 bg-background/65 backdrop-blur">
           <div className="flex h-16 items-center justify-between">
             <Link
               href="/"
