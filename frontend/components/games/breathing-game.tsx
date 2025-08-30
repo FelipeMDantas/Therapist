@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Wind } from "lucide-react";
+import { Button } from "../ui/button";
 
 const TOTAL_ROUNDS = 5;
 
@@ -63,4 +66,51 @@ export function BreathingGame() {
     setIsComplete(false);
     setIsPaused(false);
   };
+
+  return (
+    <div className="flex flex-col items-center justify-center h-[400px] space-y-8">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={phase}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          className="text-center space-y-4"
+        >
+          <div className="relative w-32 h-32 mx-auto">
+            <motion.div
+              animate={{
+                scale: phase === "inhale" ? 1.5 : phase === "exhale" ? 1 : 1.2,
+              }}
+              transition={{ duration: 4, ease: "easeInOut" }}
+              className="absolute inset-0 bg-primary/10 rounded-full"
+            />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Wind className="w-8 h-8 text-primary" />
+            </div>
+          </div>
+          <h3 className="text-2xl font-semibold">
+            {phase === "inhale"
+              ? "Breathe In"
+              : phase === "hold"
+              ? "Hold"
+              : "Breathe Out"}
+          </h3>
+        </motion.div>
+      </AnimatePresence>
+
+      <div className="space-y-2 text-center">
+        <div className="text-sm text-muted-foreground">
+          Round {round} of {TOTAL_ROUNDS}
+        </div>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setIsPaused(!isPaused)}
+        >
+          {isPaused ? "Resume" : "Pause"}
+        </Button>
+      </div>
+    </div>
+  );
 }
