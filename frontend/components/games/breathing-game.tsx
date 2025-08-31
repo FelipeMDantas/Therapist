@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Wind } from "lucide-react";
 import { Button } from "../ui/button";
+import { Progress } from "../ui/progress";
 
 const TOTAL_ROUNDS = 5;
 
@@ -98,6 +99,10 @@ export function BreathingGame() {
           </h3>
         </motion.div>
       </AnimatePresence>
+
+      <div className="w-64">
+        <Progress value={progress} className="h-2" />
+      </div>
 
       <div className="space-y-2 text-center">
         <div className="text-sm text-muted-foreground">
