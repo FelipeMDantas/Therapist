@@ -10,6 +10,13 @@ import {
   CardTitle,
 } from "../ui/card";
 import { motion } from "framer-motion";
+import { BreathingGame } from "./breathing-game";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const games = [
   {
@@ -77,7 +84,7 @@ export const AnxietyGames = ({ onGamePlayed }: AnxietyGamesProps) => {
   const renderGame = () => {
     switch (selectedGame) {
       case "breathing":
-      //return <BreathingGame />;
+        return <BreathingGame />;
       case "garden":
       //return <ZenGarden />;
       case "forest":
@@ -143,6 +150,17 @@ export const AnxietyGames = ({ onGamePlayed }: AnxietyGamesProps) => {
           </div>
         </CardContent>
       </Card>
+
+      <Dialog open={showGame} onOpenChange={setShowGame}>
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle>
+              {games.find((g) => g.id === selectedGame)?.title}
+            </DialogTitle>
+          </DialogHeader>
+          {renderGame()}
+        </DialogContent>
+      </Dialog>
     </>
   );
 };
