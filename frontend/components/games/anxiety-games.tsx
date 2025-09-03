@@ -17,6 +17,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { ZenGarden } from "./zen-garden";
 
 const games = [
   {
@@ -86,7 +87,7 @@ export const AnxietyGames = ({ onGamePlayed }: AnxietyGamesProps) => {
       case "breathing":
         return <BreathingGame />;
       case "garden":
-      //return <ZenGarden />;
+      return <ZenGarden />;
       case "forest":
       //return <ForestGame />;
       case "waves":
