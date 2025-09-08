@@ -32,6 +32,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { AnxietyGames } from "@/components/games/anxiety-games";
+import { MoodForm } from "@/components/mood/mood-form";
 
 interface DailyStats {
   moodScore: number | null;
@@ -44,6 +45,7 @@ interface DailyStats {
 export default function Dashboard() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [showMoodModal, setShowMoodModal] = useState(false);
+  const [isSavingMood, setIsSavingMood] = useState(false);
   const [dailyStats, setDailyStats] = useState<DailyStats>({
     moodScore: null,
     completionRate: 100,
@@ -269,6 +271,7 @@ export default function Dashboard() {
               Move the slider to track your current mood
             </DialogDescription>
           </DialogHeader>
+          <MoodForm />
         </DialogContent>
       </Dialog>
     </div>

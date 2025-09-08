@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Slider } from "../ui/slider";
+import { Button } from "../ui/button";
+import { Loader2 } from "lucide-react";
+import { useSession } from "@/lib/contexts/session-context";
 
 interface MoodFormProps {
   onSuccess?: () => void;
@@ -10,6 +14,7 @@ interface MoodFormProps {
 export function MoodForm({ onSuccess }: MoodFormProps) {
   const [moodScore, setMoodScore] = useState(50);
   const [isLoading, setIsLoading] = useState(false);
+  const { user, isAuthenticated, loading } = useSession();
 
   const router = useRouter();
 
@@ -61,5 +66,58 @@ export function MoodForm({ onSuccess }: MoodFormProps) {
     }
   };
 
-  return <div></div>;
+  return (
+    <div className="space-y-6 py-4">
+      <div className="text-center space-y-2">
+        <div className="text-4xl">{currentEmotion.label}</div>
+        <div className="text-sm text-muted-foreground">
+          {currentEmotion.description}
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        <div className="flex justify-between px-2">
+          {emotions.map((em) => (
+            <div
+              key={em.value}
+              className={`cursor-pointer transition-opacity ${
+                Math.abs(moodScore - em.value) < 15
+                  ? "opacity-100"
+                  : "opacity-50"
+              }`}
+              onClick={() => setMoodScore(em.value)}
+            >
+              <div className="text-2xl">{em.label}</div>
+            </div>
+          ))}
+        </div>
+
+        <Slider
+          value={[moodScore]}
+          onValueChange={(value) => setMoodScore(value[0])}
+          min={0}
+          max={100}
+          step={1}
+          className="py-4"
+        />
+      </div>
+
+      <Button
+        className="w-full"
+        onClick={handleSubmit}
+        disabled={isLoading || loading}
+      >
+        {isLoading ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Saving...
+          </>
+        ) : loading ? (
+          "Loading..."
+        ) : (
+          "Save Mood"
+        )}
+      </Button>
+    </div>
+  );
 }
