@@ -105,7 +105,7 @@ export function MoodForm({ onSuccess }: MoodFormProps) {
       <Button
         className="w-full"
         onClick={handleSubmit}
-        disabled={isLoading || loading}
+        //disabled={isLoading || loading}
       >
         {isLoading ? (
           <>
