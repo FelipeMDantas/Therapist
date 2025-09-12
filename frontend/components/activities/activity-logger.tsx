@@ -1,8 +1,18 @@
 "use client";
 
 import { useState } from "react";
-
+import { Plus, X, Loader2 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useSession } from "@/lib/contexts/session-context";
+import { Label } from "../ui/label";
 
 const activityTypes = [
   { id: "meditation", name: "Meditation" },
@@ -57,5 +67,65 @@ export function ActivityLogger({
     }
   };
 
-  return <div></div>;
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Log Activity</DialogTitle>
+          <DialogDescription>Record your wellness activity</DialogDescription>
+        </DialogHeader>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label>Name</Label>
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Morning Meditation, Evening Walk, etc."
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Duration (minutes)</Label>
+            <Input
+              type="number"
+              value={duration}
+              onChange={(e) => setDuration(e.target.value)}
+              placeholder="15"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Description (optional)</Label>
+            <Input
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="How did it go?"
+            />
+          </div>
+
+          <div className="flex justify-end gap-2">
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => onOpenChange(false)}
+            >
+              Cancel
+            </Button>
+            <Button type="submit" disabled={isLoading || loading}>
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Saving...
+                </>
+              ) : loading ? (
+                "Loading..."
+              ) : (
+                "Save Activity"
+              )}
+            </Button>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
 }
