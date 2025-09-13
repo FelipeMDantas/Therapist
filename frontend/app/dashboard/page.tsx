@@ -1,7 +1,7 @@
 "use client";
 
 import { Container } from "@/components/ui/container";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Card,
@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/dialog";
 import { AnxietyGames } from "@/components/games/anxiety-games";
 import { MoodForm } from "@/components/mood/mood-form";
+import { ActivityLogger } from "@/components/activities/activity-logger";
 
 interface DailyStats {
   moodScore: number | null;
@@ -45,7 +46,7 @@ interface DailyStats {
 export default function Dashboard() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [showMoodModal, setShowMoodModal] = useState(false);
-  const [isSavingMood, setIsSavingMood] = useState(false);
+  const [showActivityLogger, setShowActivityLogger] = useState(false);
   const [dailyStats, setDailyStats] = useState<DailyStats>({
     moodScore: null,
     completionRate: 100,
@@ -89,10 +90,16 @@ export default function Dashboard() {
     },
   ];
 
+  const loadActivities = useCallback(async () => {}, []);
+
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
+
+  const handleAICheckIn = () => {
+    setShowActivityLogger(true);
+  };
 
   return (
     <div className="min-h-[92.5vh] bg-background">
@@ -188,7 +195,7 @@ export default function Dashboard() {
                           "justify-center items-center text-center",
                           "transition-all duration-200 group-hover:translate-y-[-2px]"
                         )}
-                        onClick={() => {}}
+                        onClick={() => handleAICheckIn}
                       >
                         <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center mb-2">
                           <BrainCircuit className="w-5 h-5 text-blue-500" />
@@ -274,6 +281,12 @@ export default function Dashboard() {
           <MoodForm onSuccess={() => setShowMoodModal(false)} />{" "}
         </DialogContent>
       </Dialog>
+
+      <ActivityLogger
+        open={showActivityLogger}
+        onOpenChange={setShowActivityLogger}
+        onActivityLogged={loadActivities}
+      />
     </div>
   );
 }
