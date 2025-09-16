@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
+
 interface SuggestedQuestion {
   id: string;
   text: string;
@@ -45,4 +47,19 @@ const glowAnimation = {
 
 const COMPLETION_THRESHOLD = 5;
 
-export default function TherapyPage() {}
+export default function TherapyPage() {
+  const [message, setMessage] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const [messages, setMessages] = useState<any[]>([]);
+  const [mounted, setMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isChatPaused, setIsChatPaused] = useState(false);
+
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+
+}
