@@ -61,5 +61,17 @@ export default function TherapyPage() {
     setMounted(true);
   }, []);
 
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  };
 
+  useEffect(() => {
+    if (!isTyping) {
+      scrollToBottom();
+    }
+  }, [messages, isTyping]);
 }
