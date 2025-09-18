@@ -1,5 +1,6 @@
 "use client";
 
+import { Bot } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 interface SuggestedQuestion {
@@ -74,4 +75,20 @@ export default function TherapyPage() {
       scrollToBottom();
     }
   }, [messages, isTyping]);
+
+  return (
+    <div className="relative max-w-7xl mx-auto px-4">
+      <div className="flex h-[calc(100vh-4rem)] mt-20 gap-6">
+        <div className="flex-1 flex flex-col overflow-hidden bg-white dark:bg-background rounded-lg border">
+          <div className="p-4 border-b flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                <Bot className="w-5 h-5" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
