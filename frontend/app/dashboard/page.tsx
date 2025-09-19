@@ -34,6 +34,7 @@ import {
 import { AnxietyGames } from "@/components/games/anxiety-games";
 import { MoodForm } from "@/components/mood/mood-form";
 import { ActivityLogger } from "@/components/activities/activity-logger";
+import { useRouter } from "next/navigation";
 
 interface DailyStats {
   moodScore: number | null;
@@ -54,6 +55,8 @@ export default function Dashboard() {
     totalActivities: 0,
     lastUpdated: new Date(),
   });
+
+  const router = useRouter();
 
   const wellnessStats = [
     {
@@ -96,6 +99,10 @@ export default function Dashboard() {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
+
+  const handleStartTherapy = () => {
+    router.push("/therapy/new");
+  };
 
   const handleAICheckIn = () => {
     setShowActivityLogger(true);
@@ -147,7 +154,7 @@ export default function Dashboard() {
                         "bg-gradient-to-r from-primary/90 to-primary hover:from-primary hover:to-primary/90",
                         "transition-all duration-200 group-hover:translate-y-[-2px]"
                       )}
-                      onClick={() => {}}
+                      onClick={handleStartTherapy}
                     >
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
