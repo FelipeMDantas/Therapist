@@ -3,6 +3,7 @@
 import { Bot, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 interface SuggestedQuestion {
   id: string;
@@ -128,7 +129,26 @@ export default function TherapyPage() {
                 </div>
               </div>
             ) : (
-              <></>
+              <div className="flex-1 overflow-y-auto scroll-smooth">
+                <div className="max-w-3xl mx-auto">
+                  <AnimatePresence initial={false}>
+                    {messages.map((msg) => (
+                      <motion.div
+                        key={msg.timestamp.toISOString()}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className={cn(
+                          "px-6 py-8",
+                          msg.role === "assistant"
+                            ? "bg-muted/30"
+                            : "bg-background"
+                        )}
+                      ></motion.div>
+                    ))}
+                  </AnimatePresence>
+                </div>
+              </div>
             )}
           </div>
         </div>
