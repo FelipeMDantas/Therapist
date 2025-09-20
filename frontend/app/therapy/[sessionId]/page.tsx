@@ -1,7 +1,8 @@
 "use client";
 
-import { Bot } from "lucide-react";
+import { Bot, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface SuggestedQuestion {
   id: string;
@@ -85,7 +86,50 @@ export default function TherapyPage() {
               <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center">
                 <Bot className="w-5 h-5" />
               </div>
+              <div>
+                <h2 className="font-semibold">AI Therapist</h2>
+                <p className="text-sm text-muted-foreground">
+                  {messages.length} messages
+                </p>
+              </div>
             </div>
+            {messages.length === 0 ? (
+              <div className="flex-1 flex items-center justify-center p-4">
+                <div className="max-w-2xl w-full space-y-8">
+                  <div className="text-center space-y-4">
+                    <div className="relative inline-flex flex-col items-center">
+                      <motion.div
+                        className="absolute inset-0 bg-primary/20 blur-2xl rounded-full"
+                        initial="initial"
+                        animate="animate"
+                        //variants={glowAnimation}
+                      />
+                      <div className="relative flex items-center gap-2 text-2xl font-semibold">
+                        <div className="relative">
+                          <Sparkles className="w-6 h-6 text-primary" />
+                          <motion.div
+                            className="absolute inset-0 text-primary"
+                            initial="initial"
+                            animate="animate"
+                            //variants={glowAnimation}
+                          >
+                            <Sparkles className="w-6 h-6" />
+                          </motion.div>
+                        </div>
+                        <span className="bg-gradient-to-r from-primary/90 to-primary bg-clip-text text-transparent">
+                          AI Therapist
+                        </span>
+                      </div>
+                      <p className="text-muted-foreground mt-2">
+                        How can I assist you today?
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </div>
