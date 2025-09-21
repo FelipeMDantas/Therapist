@@ -1,9 +1,10 @@
 "use client";
 
-import { Bot, Sparkles } from "lucide-react";
+import { Bot, Sparkles, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import ReactMarkdown from "react-markdown";
 
 interface SuggestedQuestion {
   id: string;
@@ -144,7 +145,38 @@ export default function TherapyPage() {
                             ? "bg-muted/30"
                             : "bg-background"
                         )}
-                      ></motion.div>
+                      >
+                        <div className="flex gap-4">
+                          <div className="w-8 h-8 shrink-0 mt-1">
+                            {msg.role === "assistant" ? (
+                              <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center ring-1 ring-primary/20">
+                                <Bot className="w-5 h-5" />
+                              </div>
+                            ) : (
+                              <div className="w-8 h-8 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center">
+                                <User className="w-5 h-5" />
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex-1 space-y-2 overflow-hidden min-h-[2rem]">
+                            <div className="flex items-center justify-between">
+                              <p className="font-medium text-sm">
+                                {msg.role === "assistant"
+                                  ? "AI Therapist"
+                                  : "You"}
+                              </p>
+                            </div>
+                            <div className="prose prose-sm dark:prose-invert leading-relaxed">
+                              <ReactMarkdown>{msg.content}</ReactMarkdown>
+                            </div>
+                            {msg.metadata?.goal && (
+                              <p className="text-xs text-muted-foreground mt-2">
+                                Goal: {msg.metadata.goal}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      </motion.div>
                     ))}
                   </AnimatePresence>
                 </div>
