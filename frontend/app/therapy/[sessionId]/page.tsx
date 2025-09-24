@@ -200,6 +200,41 @@ export default function TherapyPage() {
               </div>
             </div>
           )}
+
+          <div className="border-t bg-background/50 backdrop-blur supports-[backdrop-filter]:bg-background/50 p-4">
+            <form
+              onSubmit={() => {}}
+              className="max-w-3xl mx-auto flex gap-4 items-end relative"
+            >
+              <div className="flex-1 relative group">
+                <textarea
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder={
+                    isChatPaused
+                      ? "Complete the activity to continue..."
+                      : "Ask me anything..."
+                  }
+                  className={cn(
+                    "w-full resize-none rounded-2xl border bg-background",
+                    "p-3 pr-12 min-h-[48px] max-h-[200px]",
+                    "focus:outline-none focus:ring-2 focus:ring-primary/50",
+                    "transition-all duration-200",
+                    "placeholder:text-muted-foreground/70",
+                    (isTyping || isChatPaused) &&
+                      "opacity-50 cursor-not-allowed"
+                  )}
+                  rows={1}
+                  disabled={isTyping || isChatPaused}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                    }
+                  }}
+                />
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
