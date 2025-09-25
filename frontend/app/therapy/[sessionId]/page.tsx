@@ -1,10 +1,11 @@
 "use client";
 
-import { Bot, Loader2, Sparkles, User } from "lucide-react";
+import { Bot, Loader2, Send, Sparkles, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
+import { Button } from "@/components/ui/button";
 
 interface SuggestedQuestion {
   id: string;
@@ -232,8 +233,35 @@ export default function TherapyPage() {
                     }
                   }}
                 />
+                <Button
+                  type="submit"
+                  size="icon"
+                  className={cn(
+                    "absolute right-1.5 bottom-3.5 h-[36px] w-[36px]",
+                    "rounded-xl transition-all duration-200",
+                    "bg-primary hover:bg-primary/90",
+                    "shadow-sm shadow-primary/20",
+                    (isTyping || isChatPaused || !message.trim()) &&
+                      "opacity-50 cursor-not-allowed",
+                    "group-hover:scale-105 group-focus-within:scale-105"
+                  )}
+                  disabled={isTyping || isChatPaused || !message.trim()}
+                  onClick={(e) => {
+                    e.preventDefault();
+                  }}
+                >
+                  <Send className="w-4 h-4" />
+                </Button>
               </div>
             </form>
+            <div className="mt-2 text-xs text-center text-muted-foreground">
+              Press <kbd className="px-2 py-0.5 rounded bg-muted">Enter ↵</kbd>{" "}
+              to send,
+              <kbd className="px-2 py-0.5 rounded bg-muted ml-1">
+                Shift + Enter
+              </kbd>{" "}
+              for new line
+            </div>
           </div>
         </div>
       </div>
