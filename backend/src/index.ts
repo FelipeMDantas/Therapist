@@ -19,7 +19,7 @@ app.get("/", (req: Request, res: Response) => {
 
 const startServer = async () => {
   try {
-    const PORT = process.env.PORT || 3001;
+    const PORT = process.env.PORT;
     app.listen(PORT, () => {
       logger.info(`Server is running on port ${PORT}`);
       logger.info(
