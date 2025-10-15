@@ -4,6 +4,9 @@ import { inngest } from "./inngest/client";
 import { functions as inngestFunctions } from "./inngest/functions";
 import { logger } from "./utils/logger";
 import { serve } from "inngest/express";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 
