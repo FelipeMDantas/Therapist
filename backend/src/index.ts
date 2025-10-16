@@ -1,14 +1,21 @@
-const express = require("express");
+import express from "express";
 import { Request, Response } from "express";
 import { inngest } from "./inngest/client";
 import { functions as inngestFunctions } from "./inngest/functions";
 import { logger } from "./utils/logger";
 import { serve } from "inngest/express";
 import dotenv from "dotenv";
+import cors from "cors";
+import helmet from "helmet";
+import morgan from "morgan";
 
 dotenv.config();
 
 const app = express();
+
+app.use(helmet()); // Security headers
+app.use(cors());
+app.use(morgan("dev")); // HTTP request logger
 
 app.use(express.json());
 app.use(
