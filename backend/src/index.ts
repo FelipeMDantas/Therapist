@@ -8,6 +8,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
+import authRoutes from "./routes/auth";
+import { errorHandler } from "./middleware/errorHandler";
 
 dotenv.config();
 
@@ -26,6 +28,10 @@ app.use(
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
+
+app.use("/auth", authRoutes);
+
+app.use(errorHandler);
 
 const startServer = async () => {
   try {

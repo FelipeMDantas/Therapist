@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { User } from "../models/User";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { Session } from "@/models/Session";
+import { Session } from "../models/Session";
 
 export const register = async (req: Request, res: Response) => {
   try {
