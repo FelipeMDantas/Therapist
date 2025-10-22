@@ -1,4 +1,4 @@
-import { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
 export interface IChatMessage {
   role: "user" | "assistant";
@@ -38,3 +38,22 @@ const chatMessageSchema = new Schema<IChatMessage>({
     progress: [Schema.Types.Mixed],
   },
 });
+
+const chatSessionSchema = new Schema<IChatSession>(
+  {
+    sessionId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    messages: [chatMessageSchema],
+  },
+  {
+    timestamps: true,
+  }
+);
+
+export const ChatSession = mongoose.model<IChatSession>(
+  "ChatSession",
+  chatSessionSchema
+);
