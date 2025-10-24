@@ -1,4 +1,4 @@
-import mongoose, { Document } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
 export interface IMood extends Document {
   userId: mongoose.Types.ObjectId;
@@ -8,3 +8,36 @@ export interface IMood extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
+
+const moodSchema = new Schema<IMood>(
+  {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    score: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 100,
+    },
+    note: {
+      type: String,
+      trim: true,
+    },
+    timestamp: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+moodSchema.index({ userId: 1, timestamp: -1 });
+
+const Mood = mongoose.model<IMood>("Mood", moodSchema);
+
+export { Mood };
