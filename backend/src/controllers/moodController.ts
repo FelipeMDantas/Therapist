@@ -1,38 +1,35 @@
 import { Request, Response, NextFunction } from "express";
-import { Activity } from "../models/Activity";
+import { Mood } from "../models/Mood";
 import { logger } from "../utils/logger";
 
-export const logActivity = async (
+export const createMood = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { type, name, description, duration, difficulty, feedback } =
-      req.body;
+    const { score, note, context, activities } = req.body;
     const userId = req.user?._id;
 
     if (!userId) {
       return res.status(401).json({ message: "User not authenticated" });
     }
 
-    const activity = new Activity({
+    const mood = new Mood({
       userId,
-      type,
-      name,
-      description,
-      duration,
-      difficulty,
-      feedback,
+      score,
+      note,
+      context,
+      activities,
       timestamp: new Date(),
     });
 
-    await activity.save();
-    logger.info(`Activity logged for user ${userId}`);
+    await mood.save();
+    logger.info(`Mood entry created for user ${userId}`);
 
     res.status(201).json({
       success: true,
-      data: activity,
+      data: mood,
     });
   } catch (error) {
     next(error);
