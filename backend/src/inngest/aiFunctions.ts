@@ -1,4 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
+import { inngest } from "./client";
+import { logger } from "../utils/logger";
 
 const ai = new GoogleGenAI({});
 
@@ -10,4 +12,37 @@ async function main() {
   console.log(response.text);
 }
 
-main();
+export const processChatMessage = inngest.createFunction(
+  {
+    id: "process-chat-message",
+  },
+  { event: "therapy/session.message" },
+  async ({ event, step }) => {
+    try {
+      main();
+
+      const {
+        message,
+        history,
+        memory = {
+          userProfile: {
+            emotionalState: [],
+            riskLevel: 0,
+            preferences: {},
+          },
+          sessionContext: {
+            conversationThemes: [],
+            currentTechnique: null,
+          },
+        },
+        goals = [],
+        systemPrompt,
+      } = event.data;
+
+      logger.info("Processing chat message:", {
+        message,
+        historyLength: history?.length,
+      });
+    } catch (error) {}
+  }
+);
