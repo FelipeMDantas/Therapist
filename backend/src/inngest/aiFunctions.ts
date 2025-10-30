@@ -2,15 +2,7 @@ import { GoogleGenAI } from "@google/genai";
 import { inngest } from "./client";
 import { logger } from "../utils/logger";
 
-const ai = new GoogleGenAI({});
-
-async function main() {
-  const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
-    contents: "Explain how AI works in a few words",
-  });
-  console.log(response.text);
-}
+const genAI = new GoogleGenAI({});
 
 export const processChatMessage = inngest.createFunction(
   {
@@ -19,8 +11,6 @@ export const processChatMessage = inngest.createFunction(
   { event: "therapy/session.message" },
   async ({ event, step }) => {
     try {
-      main();
-
       const {
         message,
         history,
@@ -42,6 +32,16 @@ export const processChatMessage = inngest.createFunction(
       logger.info("Processing chat message:", {
         message,
         historyLength: history?.length,
+      });
+
+      const analysis = await step.run("analyze-message", async () => {
+        try {
+          const prompt = "";
+          const model = genAI.models.generateContent({
+            model: "gemini-2.0-flash",
+            contents: "Explain how AI works in a few words",
+          });
+        } catch (error) {}
       });
     } catch (error) {}
   }
