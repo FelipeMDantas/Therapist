@@ -36,7 +36,19 @@ export const processChatMessage = inngest.createFunction(
 
       const analysis = await step.run("analyze-message", async () => {
         try {
-          const prompt = "";
+          const prompt = `Analyze this therapy message and provide insights. Return ONLY a valid JSON object with no markdown formatting or additional text.
+          Message: ${message}
+          Context: ${JSON.stringify({ memory, goals })}
+          
+          Required JSON structure:
+          {
+            "emotionalState": "string",
+            "themes": ["string"],
+            "riskLevel": number,
+            "recommendedApproach": "string",
+            "progressIndicators": ["string"]
+          }`;
+
           const model = genAI.models.generateContent({
             model: "gemini-2.0-flash",
             contents: "Explain how AI works in a few words",
