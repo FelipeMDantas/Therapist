@@ -51,8 +51,12 @@ export const processChatMessage = inngest.createFunction(
 
           const model = genAI.models.generateContent({
             model: "gemini-2.0-flash",
-            contents: "Explain how AI works in a few words",
+            contents: prompt,
           });
+
+          const response = (await model).text?.trim();
+          
+          logger.info("Received analysis from Gemini:", { response });
         } catch (error) {}
       });
     } catch (error) {}
