@@ -55,8 +55,14 @@ export const processChatMessage = inngest.createFunction(
           });
 
           const response = (await model).text?.trim();
-          
+
           logger.info("Received analysis from Gemini:", { response });
+
+          const cleanText = response?.replace(/```json\n|\n```/g, "").trim();
+          const parsedAnalysis = JSON.parse(cleanText || "{}");
+
+          logger.info("Successfully parsed analysis:", parsedAnalysis);
+          return parsedAnalysis;
         } catch (error) {}
       });
     } catch (error) {}
