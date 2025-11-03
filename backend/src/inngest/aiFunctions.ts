@@ -63,7 +63,16 @@ export const processChatMessage = inngest.createFunction(
 
           logger.info("Successfully parsed analysis:", parsedAnalysis);
           return parsedAnalysis;
-        } catch (error) {}
+        } catch (error) {
+          logger.error("Error in message analysis:", { error, message });
+          return {
+            emotionalState: "neutral",
+            themes: [],
+            riskLevel: 0,
+            recommendedApproach: "supportive",
+            progressIndicators: [],
+          };
+        }
       });
     } catch (error) {}
   }
