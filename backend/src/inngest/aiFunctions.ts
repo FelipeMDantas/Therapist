@@ -87,6 +87,15 @@ export const processChatMessage = inngest.createFunction(
         }
         return memory;
       });
+
+      if (analysis.riskLevel > 4) {
+        await step.run("trigger-risk-alert", async () => {
+          logger.warn("High risk level detected in chat message", {
+            message,
+            riskLevel: analysis.riskLevel,
+          });
+        });
+      }
     } catch (error) {}
   }
 );
