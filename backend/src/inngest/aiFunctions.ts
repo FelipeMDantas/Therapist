@@ -128,6 +128,17 @@ export const processChatMessage = inngest.createFunction(
           return "I'm here to support you. Could you tell me more about what's on your mind?";
         }
       });
-    } catch (error) {}
+
+      return {
+        response,
+        analysis,
+        updatedMemory,
+      };
+    } catch (error) {
+      logger.error("Error in chat message processing:", {
+        error,
+        message: event.data.message,
+      });
+    }
   }
 );
