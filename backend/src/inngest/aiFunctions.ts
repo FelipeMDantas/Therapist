@@ -139,6 +139,18 @@ export const processChatMessage = inngest.createFunction(
         error,
         message: event.data.message,
       });
+      return {
+        response:
+          "I'm here to support you. Could you tell me more about what's on your mind?",
+        analysis: {
+          emotionalState: "neutral",
+          themes: [],
+          riskLevel: 0,
+          recommendedApproach: "supportive",
+          progressIndicators: [],
+        },
+        updatedMemory: event.data.memory,
+      };
     }
   }
 );
