@@ -154,3 +154,12 @@ export const processChatMessage = inngest.createFunction(
     }
   }
 );
+
+export const analyzeTherapySession = inngest.createFunction(
+  { id: "analyze-therapy-session" },
+  { event: "therapy/session.created" },
+  async ({ event, step }) => {
+    try {
+    } catch (error) {}
+  }
+);
