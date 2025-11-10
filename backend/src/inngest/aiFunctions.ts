@@ -160,6 +160,32 @@ export const analyzeTherapySession = inngest.createFunction(
   { event: "therapy/session.created" },
   async ({ event, step }) => {
     try {
+      const sessionContent = await step.run("get-session-content", async () => {
+        return event.data.notes || event.data.transcript;
+      });
+
+      const analysis = await step.run("analyze-with-gemini", async () => {
+        const prompt = `Analyze this therapy session and provide insights:
+        Session Content: ${sessionContent}
+        
+        Please provide:
+        1. Key themes and topics discussed
+        2. Emotional state analysis
+        3. Potential areas of concern
+        4. Recommendations for follow-up
+        5. Progress indicators
+        
+        Format the response as a JSON object.`;
+
+        const model = genAI.models.generateContent({
+          model: "gemini-2.0-flash",
+          contents: prompt,
+        });
+
+        const response = (await model).text?.trim();
+
+        return JSON.parse(response || "{}");
+      });
     } catch (error) {}
   }
 );
