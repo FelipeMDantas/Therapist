@@ -186,6 +186,20 @@ export const analyzeTherapySession = inngest.createFunction(
 
         return JSON.parse(response || "{}");
       });
+
+      await step.run("store-analysis", async () => {
+        logger.info("Session analysis stored successfully");
+        return analysis;
+      });
+
+      if (analysis.areasOfConcern?.length > 0) {
+        await step.run("trigger-concern-alert", async () => {
+          logger.warn("Concerning indicators detected in session analysis", {
+            sessionId: event.data.sessionId,
+            concerns: analysis.areasOfConcern,
+          });
+        });
+      }
     } catch (error) {}
   }
 );
