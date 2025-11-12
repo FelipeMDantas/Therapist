@@ -200,6 +200,13 @@ export const analyzeTherapySession = inngest.createFunction(
           });
         });
       }
-    } catch (error) {}
+      return {
+        message: "Session analysis completed",
+        analysis,
+      };
+    } catch (error) {
+      logger.error("Error in therapy session analysis:", error);
+      throw error;
+    }
   }
 );
