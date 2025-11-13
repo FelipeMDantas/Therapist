@@ -210,3 +210,9 @@ export const analyzeTherapySession = inngest.createFunction(
     }
   }
 );
+
+export const generateActivityRecommendations = inngest.createFunction(
+  { id: "generate-activity-recommendations" },
+  { event: "mood/updated" },
+  async ({ event, step }) => {}
+);
