@@ -216,3 +216,9 @@ export const generateActivityRecommendations = inngest.createFunction(
   { event: "mood/updated" },
   async ({ event, step }) => {}
 );
+
+export const functions = [
+  processChatMessage,
+  analyzeTherapySession,
+  generateActivityRecommendations,
+];
