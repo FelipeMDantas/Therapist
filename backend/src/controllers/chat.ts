@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { Types } from "mongoose";
 import { User } from "../models/User";
+import { ChatSession } from "@/models/Chat";
+import { v4 as uuidv4 } from "uuid";
 
 export const createChatSession = async (req: Request, res: Response) => {
   try {
@@ -16,5 +18,22 @@ export const createChatSession = async (req: Request, res: Response) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+
+    const sessionId = uuidv4();
+
+    const session = new ChatSession({
+      sessionId,
+      userId,
+      startTime: new Date(),
+      status: "active",
+      messages: [],
+    });
+
+    await session.save();
+
+    res.status(201).json({
+      message: "Chat session created successfully",
+      sessionId: session.sessionId,
+    });
   } catch (error) {}
 };
