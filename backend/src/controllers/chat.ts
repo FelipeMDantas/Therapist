@@ -3,6 +3,7 @@ import { Types } from "mongoose";
 import { User } from "../models/User";
 import { ChatSession } from "@/models/Chat";
 import { v4 as uuidv4 } from "uuid";
+import { logger } from "../utils/logger";
 
 export const createChatSession = async (req: Request, res: Response) => {
   try {
@@ -35,5 +36,11 @@ export const createChatSession = async (req: Request, res: Response) => {
       message: "Chat session created successfully",
       sessionId: session.sessionId,
     });
-  } catch (error) {}
+  } catch (error) {
+    logger.error("Error creating chat session:", error);
+    res.status(500).json({
+      message: "Error creating chat session",
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
 };
