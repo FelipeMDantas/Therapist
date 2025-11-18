@@ -44,3 +44,15 @@ export const createChatSession = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const sendMessage = async (req: Request, res: Response) => {
+  try {
+    const { sessionId } = req.params;
+    const { message } = req.body;
+    const userId = new Types.ObjectId(req.user.id);
+
+    logger.info("Processing message:", { sessionId, message });
+  } catch (error) {
+    
+  }
+};
