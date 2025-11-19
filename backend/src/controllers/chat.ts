@@ -52,7 +52,13 @@ export const sendMessage = async (req: Request, res: Response) => {
     const userId = new Types.ObjectId(req.user.id);
 
     logger.info("Processing message:", { sessionId, message });
+
+    const session = await ChatSession.findOne({ sessionId });
+    if (!session) {
+      logger.warn("Session not found:", { sessionId });
+      return res.status(404).json({ message: "Session not found" });
+    }
   } catch (error) {
-    
+
   }
 };
