@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { Types } from "mongoose";
 import { User } from "../models/User";
-import { ChatSession } from "@/models/Chat";
 import { v4 as uuidv4 } from "uuid";
 import { logger } from "../utils/logger";
+import { ChatSession } from "../models/ChatSession";
 
 export const createChatSession = async (req: Request, res: Response) => {
   try {
@@ -57,6 +57,11 @@ export const sendMessage = async (req: Request, res: Response) => {
     if (!session) {
       logger.warn("Session not found:", { sessionId });
       return res.status(404).json({ message: "Session not found" });
+    }
+
+    if (session.userId.toString() !== userId.toString()) {
+      logger.warn("Unauthorized access attempt:", { sessionId, userId });
+      return res.status(403).json({ message: "Unauthorized" });
     }
   } catch (error) {
 
