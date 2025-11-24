@@ -4,6 +4,7 @@ import { User } from "../models/User";
 import { v4 as uuidv4 } from "uuid";
 import { logger } from "../utils/logger";
 import { ChatSession } from "../models/ChatSession";
+import { InngestEvent } from "@/types/inngest";
 
 export const createChatSession = async (req: Request, res: Response) => {
   try {
@@ -63,7 +64,31 @@ export const sendMessage = async (req: Request, res: Response) => {
       logger.warn("Unauthorized access attempt:", { sessionId, userId });
       return res.status(403).json({ message: "Unauthorized" });
     }
-  } catch (error) {
 
-  }
+    const event: InngestEvent = {
+      name: "therapy/session.message",
+      data: {
+        message,
+        history: session.messages,
+        memory: {
+          userProfile: {
+            emotionalState: [],
+            riskLevel: 0,
+            preferences: {},
+          },
+          sessionContext: {
+            conversationThemes: [],
+            currentTechnique: null,
+          },
+        },
+        goals: [],
+        systemPrompt: `You are an AI therapist assistant. Your role is to:
+        1. Provide empathetic and supportive responses
+        2. Use evidence-based therapeutic techniques
+        3. Maintain professional boundaries
+        4. Monitor for risk factors
+        5. Guide users toward their therapeutic goals`,
+      },
+    };
+  } catch (error) {}
 };
