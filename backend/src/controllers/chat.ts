@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { logger } from "../utils/logger";
 import { ChatSession } from "../models/ChatSession";
 import { InngestEvent } from "@/types/inngest";
+import { inngest } from "../inngest/client";
 
 export const createChatSession = async (req: Request, res: Response) => {
   try {
@@ -90,5 +91,26 @@ export const sendMessage = async (req: Request, res: Response) => {
         5. Guide users toward their therapeutic goals`,
       },
     };
+
+    logger.info("Sending message to Inngest:", { event });
+
+    await inngest.send(event);
+
+    const analysisPrompt = `Analyze this therapy message and provide insights. 
+    Return ONLY a valid JSON object with no markdown formatting or additional text.
+    Message: ${message}
+    Context: ${JSON.stringify({
+      memory: event.data.memory,
+      goals: event.data.goals,
+    })}
+    
+    Required JSON structure:
+    {
+      "emotionalState": "string",
+      "themes": ["string"],
+      "riskLevel": number,
+      "recommendedApproach": "string",
+      "progressIndicators": ["string"]
+    }`;
   } catch (error) {}
 };
