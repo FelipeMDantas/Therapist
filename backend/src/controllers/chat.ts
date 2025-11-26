@@ -6,6 +6,9 @@ import { logger } from "../utils/logger";
 import { ChatSession } from "../models/ChatSession";
 import { InngestEvent } from "@/types/inngest";
 import { inngest } from "../inngest/client";
+import { GoogleGenAI } from "@google/genai";
+
+const genAI = new GoogleGenAI({});
 
 export const createChatSession = async (req: Request, res: Response) => {
   try {
@@ -112,5 +115,17 @@ export const sendMessage = async (req: Request, res: Response) => {
       "recommendedApproach": "string",
       "progressIndicators": ["string"]
     }`;
+
+    const model = genAI.models.generateContent({
+      model: "gemini-2.0-flash",
+      contents: analysisPrompt,
+    });
+
+    const analysisText = (await model).text?.trim();
+
+    const cleanAnalysisText = analysisText
+      ?.replace(/```json\n|\n```/g, "")
+      .trim();
+    const analysis = JSON.parse(cleanAnalysisText || "{}");
   } catch (error) {}
 };
