@@ -127,5 +127,22 @@ export const sendMessage = async (req: Request, res: Response) => {
       ?.replace(/```json\n|\n```/g, "")
       .trim();
     const analysis = JSON.parse(cleanAnalysisText || "{}");
+
+    logger.info("Message analysis:", analysis);
+
+    const responsePrompt = `${event.data.systemPrompt}
+    
+    Based on the following context, generate a therapeutic response:
+    Message: ${message}
+    Analysis: ${JSON.stringify(analysis)}
+    Memory: ${JSON.stringify(event.data.memory)}
+    Goals: ${JSON.stringify(event.data.goals)}
+    
+    Provide a response that:
+    1. Addresses the immediate emotional needs
+    2. Uses appropriate therapeutic techniques
+    3. Shows empathy and understanding
+    4. Maintains professional boundaries
+    5. Considers safety and well-being`;
   } catch (error) {}
 };
