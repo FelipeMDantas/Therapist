@@ -144,5 +144,14 @@ export const sendMessage = async (req: Request, res: Response) => {
     3. Shows empathy and understanding
     4. Maintains professional boundaries
     5. Considers safety and well-being`;
+
+    const responseModel = genAI.models.generateContent({
+      model: "gemini-2.0-flash",
+      contents: responsePrompt,
+    });
+
+    const response = (await responseModel).text?.trim();
+
+    logger.info("Generated response:", response);
   } catch (error) {}
 };
