@@ -153,5 +153,24 @@ export const sendMessage = async (req: Request, res: Response) => {
     const response = (await responseModel).text?.trim();
 
     logger.info("Generated response:", response);
+
+    session.messages.push({
+      role: "user",
+      content: message,
+      timestamp: new Date(),
+    });
+
+    session.messages.push({
+      role: "assistant",
+      content: response || "",
+      timestamp: new Date(),
+      metadata: {
+        analysis,
+        progress: {
+          emotionalState: analysis.emotionalState,
+          riskLevel: analysis.riskLevel,
+        },
+      },
+    });
   } catch (error) {}
 };
