@@ -175,5 +175,17 @@ export const sendMessage = async (req: Request, res: Response) => {
 
     await session.save();
     logger.info("Session updated successfully:", { sessionId });
+
+    res.json({
+      response,
+      message: response,
+      analysis,
+      metadata: {
+        progress: {
+          emotionalState: analysis.emotionalState,
+          riskLevel: analysis.riskLevel,
+        },
+      },
+    });
   } catch (error) {}
 };
