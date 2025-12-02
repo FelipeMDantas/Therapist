@@ -187,5 +187,11 @@ export const sendMessage = async (req: Request, res: Response) => {
         },
       },
     });
-  } catch (error) {}
+  } catch (error) {
+    logger.error("Error in sendMessage:", error);
+    res.status(500).json({
+      message: "Error processing message",
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
 };
