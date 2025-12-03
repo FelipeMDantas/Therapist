@@ -3,7 +3,7 @@ import { Types } from "mongoose";
 import { User } from "../models/User";
 import { v4 as uuidv4 } from "uuid";
 import { logger } from "../utils/logger";
-import { ChatSession } from "../models/ChatSession";
+import { ChatSession, IChatSession } from "../models/ChatSession";
 import { InngestEvent } from "@/types/inngest";
 import { inngest } from "../inngest/client";
 import { GoogleGenAI } from "@google/genai";
@@ -193,5 +193,32 @@ export const sendMessage = async (req: Request, res: Response) => {
       message: "Error processing message",
       error: error instanceof Error ? error.message : "Unknown error",
     });
+  }
+};
+
+export const getSessionHistory = async (req: Request, res: Response) => {
+  try {
+    const { sessionId } = req.params;
+    const userId = new Types.ObjectId(req.user.id);
+
+    const session = (await ChatSession.findById(
+      sessionId
+    ).exec()) as IChatSession;
+    if (!session) {
+      return res.status(404).json({ message: "Session not found" });
+    }
+
+    if (session.userId.toString() !== userId.toString()) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+
+    res.json({
+      messages: session.messages,
+      startTime: session.startTime,
+      status: session.status,
+    });
+  } catch (error) {
+    logger.error("Error fetching session history:", error);
+    res.status(500).json({ message: "Error fetching session history" });
   }
 };
