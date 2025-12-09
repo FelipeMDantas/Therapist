@@ -10,6 +10,9 @@ import helmet from "helmet";
 import morgan from "morgan";
 import authRoutes from "./routes/auth";
 import { errorHandler } from "./middleware/errorHandler";
+import chatRouter from "./routes/chat";
+import activityRouter from "./routes/activity";
+import moodRouter from "./routes/mood";
 
 dotenv.config();
 
@@ -30,6 +33,9 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/auth", authRoutes);
+app.use("/chat", chatRouter);
+app.use("/api/mood", moodRouter);
+app.use("/api/activity", activityRouter);
 
 app.use(errorHandler);
 
