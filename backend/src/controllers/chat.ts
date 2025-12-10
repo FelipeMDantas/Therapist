@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { Types } from "mongoose";
 import { User } from "../models/User";
-import { v4 as uuidv4 } from "uuid";
+//import { v4 as uuidv4 } from "uuid";
+
 import { logger } from "../utils/logger";
 import { ChatSession, IChatSession } from "../models/ChatSession";
 import { InngestEvent } from "@/types/inngest";
@@ -25,6 +26,7 @@ export const createChatSession = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "User not found" });
     }
 
+    const { v4: uuidv4 } = await import("uuid");
     const sessionId = uuidv4();
 
     const session = new ChatSession({
