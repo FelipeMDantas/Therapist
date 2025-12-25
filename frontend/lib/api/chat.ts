@@ -15,3 +15,27 @@ export interface ChatMessage {
     };
   };
 }
+
+export interface ChatSession {
+  sessionId: string;
+  messages: ChatMessage[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface ApiResponse {
+  message: string;
+  response?: string;
+  analysis?: {
+    emotionalState: string;
+    themes: string[];
+    riskLevel: number;
+    recommendedApproach: string;
+    progressIndicators: string[];
+  };
+  metadata?: {
+    technique: string;
+    goal: string;
+    progress: any[];
+  };
+}
