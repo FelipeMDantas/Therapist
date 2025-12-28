@@ -72,3 +72,33 @@ export const createChatSession = async (): Promise<string> => {
     throw error;
   }
 };
+
+export const sendChatMessage = async (
+  sessionId: string,
+  message: string
+): Promise<ApiResponse> => {
+  try {
+    console.log(`Sending message to session ${sessionId}:`, message);
+    const response = await fetch(
+      `${API_BASE}/chat/sessions/${sessionId}/messages`,
+      {
+        method: "POST",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ message }),
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.json();
+      console.error("Failed to send message:", error);
+      throw new Error(error.error || "Failed to send message");
+    }
+
+    const data = await response.json();
+    console.log("Message sent successfully:", data);
+    return data;
+  } catch (error) {
+    console.error("Error sending chat message:", error);
+    throw error;
+  }
+};
