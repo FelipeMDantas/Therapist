@@ -102,3 +102,41 @@ export const sendChatMessage = async (
     throw error;
   }
 };
+
+export const getChatHistory = async (
+  sessionId: string
+): Promise<ChatMessage[]> => {
+  try {
+    console.log(`Fetching chat history for session ${sessionId}`);
+    const response = await fetch(
+      `${API_BASE}/chat/sessions/${sessionId}/history`,
+      {
+        headers: getAuthHeaders(),
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.json();
+      console.error("Failed to fetch chat history:", error);
+      throw new Error(error.error || "Failed to fetch chat history");
+    }
+
+    const data = await response.json();
+    console.log("Received chat history:", data);
+
+    if (!Array.isArray(data)) {
+      console.error("Invalid chat history format:", data);
+      throw new Error("Invalid chat history format");
+    }
+
+    return data.map((msg: any) => ({
+      role: msg.role,
+      content: msg.content,
+      timestamp: new Date(msg.timestamp),
+      metadata: msg.metadata,
+    }));
+  } catch (error) {
+    console.error("Error fetching chat history:", error);
+    throw error;
+  }
+};
